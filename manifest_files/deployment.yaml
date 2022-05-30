@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  static-app-js
+  namespace: static-website
+  labels:
+    app:  static-app-js
+spec:
+  selector:
+    matchLabels:
+      app: static-app-js
+  replicas: 4
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  static-app-js
+    spec:
+      containers:
+      - name:  static-app-js
+        image:  myjob:latest
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+          limits:
+            cpu: "500m"
+            memory: "700Mi"
+        ports:
+        - containerPort:  80
+---
